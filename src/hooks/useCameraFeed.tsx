@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 export function useCameraFeed() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [error, setError] = useState<string | null>(null);
-  const [preferFrontCamera, setPreferFrontCamera] = useState(true);
+  const [preferFrontCamera, setPreferFrontCamera] = useState(false);
   const [deviceslabel, setDevicesLabel] = useState<string[]>([]);
 
   const refVd = videoRef.current;
