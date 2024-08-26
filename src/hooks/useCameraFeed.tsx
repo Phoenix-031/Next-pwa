@@ -18,7 +18,12 @@ export function useCameraFeed() {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(device => device.kind === 'videoinput');
 
-        console.log(devices)
+        const constraints = {
+            video: {
+                facingMode:'environment'
+            }
+        };
+
 
         if(devices){
             setDevicesLabel(devices.map(device => {
@@ -41,7 +46,7 @@ export function useCameraFeed() {
         }
         
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
+            ...constraints,
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
