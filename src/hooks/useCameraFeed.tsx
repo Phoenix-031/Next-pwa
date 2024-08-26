@@ -5,6 +5,7 @@ export function useCameraFeed() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [preferFrontCamera, setPreferFrontCamera] = useState(true);
+  const [deviceslabel, setDevicesLabel] = useState<string[]>([]);
 
   const refVd = videoRef.current;
 
@@ -16,6 +17,19 @@ export function useCameraFeed() {
 
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+        console.log(devices)
+
+        if(devices){
+            setDevicesLabel(devices.map(device => {
+                if(device.kind === 'videoinput'){
+                    return device.label
+                }else{
+                    return 'nopes'
+                }
+            }))
+        }
+        
         if (videoDevices.length > 0) {
           selectedDeviceId = videoDevices.find(device =>
             preferFrontCamera ? device.label.toLowerCase().includes('front') : device.label.toLowerCase().includes('back')
@@ -48,5 +62,5 @@ export function useCameraFeed() {
     };
   }, [refVd, preferFrontCamera]);
 
-  return { videoRef, error };
+  return { videoRef, error,deviceslabel };
 }
